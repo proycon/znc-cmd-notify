@@ -10,6 +10,8 @@
 
 #include <map>
 #include <string>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 #include "znc/znc.h"
 #include "znc/Chan.h"
@@ -184,11 +186,16 @@ class CNotifoMod : public CModule
 			{
 				execl("/bin/sh", "-c", options["cmd"].c_str(), cmd.c_str(), NULL); /* tells the child to stop executing this code */
 				PutIRC("PRIVMSG " + nick.GetNick() + " : Send fail.");
+
 				exit(0);
 				/* and start executing pidgin..or w/e you want*/
 			}
 			else /* parent executes this */
-			{  }
+			{
+				int status;
+				/* wait for child to complete, or they becomes zombie. */
+				waitpid(pid, &status, 0);
+			}
 			return true;  
 		}
 
