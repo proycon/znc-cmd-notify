@@ -184,7 +184,7 @@ class CNotifoMod : public CModule
 			}
 			else if(pid == 0) /* child executes this */
 			{
-				execl("/bin/sh", "-c", options["cmd"].c_str(), cmd.c_str(), NULL); /* tells the child to stop executing this code */
+				execl("/bin/bash", "-c", options["cmd"].c_str(), cmd.c_str(), NULL); /* tells the child to stop executing this code */
 				PutIRC("PRIVMSG " + nick.GetNick() + " : Send fail.");
 
 				exit(0);
